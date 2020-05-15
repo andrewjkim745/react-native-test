@@ -19,30 +19,37 @@ export default class App extends React.Component {
 
     this.state = {
       display: false,
+      isLoading: true
     }
   }
 
 
   handleDisplay = e => {
     this.setState({
-      display: true
+      display: !this.state.display
     })
   }
 
 
   render() {
+
+    const { isLoading } = this.state;
     return (
       <>
         <View style={styles.container}>
-          <Text>Open up App.js to start working on your app!</Text>
+          { isLoading ? (<Text>Fetching app info</Text> ) : (
+            <>
+          <Text>I hate React Native and I want to go back to React</Text>
           <RaisedButton
             title="Press Me"
             buttonStyle={styles.button}
             type="outline"
             onPress={this.handleDisplay}
           />
+          </>
+          )}
         </View>
-        {display ? <FlexContainer/> : <View/>}
+        {this.state.display ? <FlexContainer/> : null }
       </>
     );
   }
@@ -53,9 +60,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   button: {
-    color: 'red'
+    marginTop: 10
   }
 });
