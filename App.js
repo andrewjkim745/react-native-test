@@ -2,15 +2,10 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Button } from 'react-native-elements';
 import FlexContainer from './components/flexContainer'
+import Weather from './components/weather'
 
 
 const RaisedButton = props => <Button raised {...props} />;
-
-const renderFlexContainer = e => {
-  return (
-    <FlexContainer />
-  )
-}
 
 export default class App extends React.Component {
   constructor(props) {
@@ -50,6 +45,7 @@ export default class App extends React.Component {
           )}
         </View>
         {this.state.display ? <FlexContainer/> : null }
+        <Weather/>
       </>
     );
   }
