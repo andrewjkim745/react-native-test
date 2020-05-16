@@ -1,10 +1,11 @@
 import React from 'react'
 import { Entypo } from '@expo/vector-icons'; 
+import { StyleSheet, View } from 'react-native'
 
 
 
 
-export const Weather = () => {
+export default Weather = () => {
     return (
         <View style={styles.weatherContainer}>
             <Entypo/>

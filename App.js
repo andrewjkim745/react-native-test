@@ -19,9 +19,22 @@ export default class App extends React.Component {
   }
 
 
+
+  componentDidMount = () => {
+    return (
+      this.renderComponent()
+    )
+  }
+
   handleDisplay = e => {
     this.setState({
       display: !this.state.display
+    })
+  }
+
+  renderComponent = () => {
+    this.setState({
+      isLoading: false
     })
   }
 
@@ -32,20 +45,20 @@ export default class App extends React.Component {
     return (
       <>
         <View style={styles.container}>
-          { isLoading ? (<Text>Fetching app info</Text> ) : (
+          {isLoading ? (<Text>Fetching app info</Text>) : (
             <>
-          <Text>I hate React Native and I want to go back to React</Text>
-          <RaisedButton
-            title="Press Me"
-            buttonStyle={styles.button}
-            type="outline"
-            onPress={this.handleDisplay}
-          />
-          </>
+              <Text>I hate React Native and I want to go back to React</Text>
+              <RaisedButton
+                title="Press Me"
+                buttonStyle={styles.button}
+                type="outline"
+                onPress={this.handleDisplay}
+              />
+            </>
           )}
         </View>
-        {this.state.display ? <FlexContainer/> : null }
-        <Weather/>
+        {this.state.display ? <FlexContainer /> : null}
+        <Weather />
       </>
     );
   }
