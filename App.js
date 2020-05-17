@@ -6,6 +6,7 @@ import Weather from './components/weather'
 
 
 const RaisedButton = props => <Button raised {...props} />;
+const KEY = 'ea994d1c1b70d1af6f2108212ae8b988'
 
 export default class App extends React.Component {
   constructor(props) {
@@ -14,7 +15,10 @@ export default class App extends React.Component {
 
     this.state = {
       display: false,
-      isLoading: true
+      isLoading: true,
+      error: null,
+      weatherCondition: null,
+      temperature: null
     }
   }
 
@@ -22,7 +26,16 @@ export default class App extends React.Component {
 
   componentDidMount = () => {
     return (
-      this.renderComponent()
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          this.fetchWeather(position.coords.latitude, position.coords.longitude);
+        },
+        error => {
+          this.setState({
+            error: 'Error Retrieving Weather Conditions'
+          });
+        }
+      )
     )
   }
 
@@ -54,7 +67,7 @@ export default class App extends React.Component {
 
   render() {
 
-    const { isLoading } = this.state;
+    const { isLoading, weatherCondition, temperature } = this.state;
     return (
       <>
         <View style={styles.container}>
@@ -71,7 +84,10 @@ export default class App extends React.Component {
           )}
         </View>
         {this.state.display ? <FlexContainer /> : null}
-        <Weather />
+        <Weather 
+        weather={weatherCondition}
+        temperature={temperature}
+        />
       </>
     );
   }
