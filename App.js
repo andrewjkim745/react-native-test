@@ -52,13 +52,13 @@ export default class App extends React.Component {
   }
 
   fetchWeather = (lat, lon) => {
-    fetch(`http://api.openweathermap.org/data/2.5/weather?  
-     lat=${lat}&lon=${lon}&APPID=${KEY}&units=imperial`)
+    fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=41.797482&lon=-72.413002&
+    exclude=hourly,daily&appid=ea994d1c1b70d1af6f2108212ae8b988`)
     .then(res => res.json())
     .then(data => {
       this.setState({
-        temperature: data.main.temp,
-        weatherCondition: data.weather[0].main,
+        temperature: data.current.temp,
+        weatherCondition: data.current.weather[0].main * 1.8 - 459.67,
         isLoading: false
        });
      });
@@ -73,9 +73,9 @@ export default class App extends React.Component {
         <View style={styles.container}>
           {isLoading ? (<Text>Fetching app info</Text>) : (
             <>
-              <Text>I hate React Native and I want to go back to React</Text>
+              <Text>This is an advanced Weather App</Text>
               <RaisedButton
-                title="Press Me"
+                title="Display Current Weather"
                 buttonStyle={styles.button}
                 type="outline"
                 onPress={this.handleDisplay}
@@ -83,11 +83,15 @@ export default class App extends React.Component {
             </>
           )}
         </View>
-        {this.state.display ? <FlexContainer /> : null}
-        <Weather 
-        weather={weatherCondition}
-        temperature={temperature}
-        />
+        {this.state.display ?
+           <Weather 
+           weather={weatherCondition}
+           temperature={temperature}
+           />
+           :
+           null
+        }
+       
       </>
     );
   }
