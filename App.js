@@ -52,17 +52,17 @@ export default class App extends React.Component {
   }
 
   fetchWeather = (lat, lon) => {
-    fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=41.797482&lon=-72.413002&
-    exclude=hourly,daily&appid=ea994d1c1b70d1af6f2108212ae8b988`)
-    .then(res => res.json())
-    .then(data => {
-      this.setState({
-        temperature: data.current.temp,
-        weatherCondition: data.current.weather[0].main * 1.8 - 459.67,
-        isLoading: false
-       });
-     });
-    }
+    fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&
+    exclude=hourly,daily&appid=${KEY}`)
+      .then(res => res.json())
+      .then(data => {
+        this.setState({
+          temperature: Math.round(data.current.temp * 1.8 - 459.67),
+          weatherCondition: data.current.weather[0].main,
+          isLoading: false
+        });
+      });
+  }
 
 
   render() {
@@ -84,14 +84,13 @@ export default class App extends React.Component {
           )}
         </View>
         {this.state.display ?
-           <Weather 
-           weather={weatherCondition}
-           temperature={temperature}
-           />
-           :
-           null
+          <Weather
+            weather={weatherCondition}
+            temperature={temperature}
+          />
+          :
+          null
         }
-       
       </>
     );
   }

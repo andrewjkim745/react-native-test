@@ -10,8 +10,8 @@ export default Weather = ({weather, temperature}) => {
         <View style={styles.weatherContainer}>
             <Entypo name="icloud" size={100} color="blue"/>
             <Text style={styles.text}>{weather}</Text>
-            <Text style={styles.temperature}>{temperature}</Text>
-        </View>
+            <Text style={styles.temperature}>{temperature}° F</Text>
+        </View> 
 
     )
 } 
