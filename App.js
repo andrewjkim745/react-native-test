@@ -18,7 +18,10 @@ export default class App extends React.Component {
       isLoading: true,
       error: null,
       weatherCondition: null,
-      temperature: null
+      temperature: null,
+      current: true,
+      hourly: false,
+      daily: false
     }
   }
 
@@ -37,6 +40,9 @@ export default class App extends React.Component {
         }
       )
     )
+  }
+
+  handleCurrent = e => {
   }
 
   handleDisplay = e => {
@@ -83,7 +89,7 @@ export default class App extends React.Component {
             </>
           )}
         </View>
-        {this.state.display ?
+        {this.state.current ?
           <Weather
             weather={weatherCondition}
             temperature={temperature}
