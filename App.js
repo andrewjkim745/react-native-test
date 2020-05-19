@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Button } from 'react-native-elements';
 import FlexContainer from './components/flexContainer'
 import Weather from './components/weather'
+import stateButtons from './components/buttons'
 
 
 const RaisedButton = props => <Button raised {...props} />;
@@ -43,7 +44,24 @@ export default class App extends React.Component {
   }
 
   handleCurrent = e => {
+    this.setState({
+      current: !this.state.current
+    })
   }
+
+  handleDaily = e => {
+    this.setState({
+      daily: !this.state.daily
+    })
+  }
+
+  handleHourly = e => {
+    this.setState({
+      hourly: !this.state.hourly
+    })
+  }
+
+
 
   handleDisplay = e => {
     this.setState({
@@ -70,6 +88,33 @@ export default class App extends React.Component {
       });
   }
 
+  fetchHourlyWeather = (lat, lon) => {
+    fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&
+    exclude=hourly,daily&appid=${KEY}`)
+      .then(res => res.json())
+      .then(data => {
+        this.setState({
+          temperature: Math.round(data.hourly.temp * 1.8 - 459.67),
+          weatherCondition: data.hourly.weather[0].main,
+          isLoading: false
+        });
+      });
+  }
+
+  fetchDailyWeather = (lat, lon) => {
+    fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&
+    exclude=hourly,daily&appid=${KEY}`)
+    .then(res => res.json())
+    .then(data => {
+      this.setState({
+        temperature: Math.round(data.daily.temp.day * 1.8 - 459.67),
+        weatherCondition: data.daily.weather[0].main,
+        isLoading: false
+      });
+    });
+
+  }
+
 
   render() {
 
@@ -85,6 +130,10 @@ export default class App extends React.Component {
                 buttonStyle={styles.button}
                 type="outline"
                 onPress={this.handleDisplay}
+              />
+              <stateButtons
+              current={this.handleCurrent}
+              daily={this.handleDaily}
               />
             </>
           )}
