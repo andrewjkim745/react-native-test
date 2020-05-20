@@ -53,12 +53,22 @@ export default class App extends React.Component {
     this.setState({
       daily: !this.state.daily
     })
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        this.fetchDailyWeather(position.coords.latitude, position.coords.longitude);
+      },
+    )
   }
 
   handleHourly = e => {
     this.setState({
       hourly: !this.state.hourly
     })
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        this.fetchHourlyWeather(position.coords.latitude, position.coords.longitude);
+      },
+    )
   }
 
 
@@ -134,6 +144,7 @@ export default class App extends React.Component {
               <stateButtons
               current={this.handleCurrent}
               daily={this.handleDaily}
+              hourly={this.handleHourly}
               />
             </>
           )}
