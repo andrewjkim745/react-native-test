@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Button } from 'react-native-elements';
 import FlexContainer from './components/flexContainer'
 import Weather from './components/weather'
-import stateButtons from './components/buttons'
+import { StateButtons } from './components/buttons'
 
 
 const RaisedButton = props => <Button raised {...props} />;
@@ -104,7 +104,7 @@ export default class App extends React.Component {
       .then(res => res.json())
       .then(data => {
         this.setState({
-          temperature: Math.round(data.hourly.temp * 1.8 - 459.67),
+          temperature: Math.round(data.hourly[0].temp * 1.8 - 459.67),
           weatherCondition: data.hourly.weather[0].main,
           isLoading: false
         });
@@ -117,10 +117,12 @@ export default class App extends React.Component {
     .then(res => res.json())
     .then(data => {
       this.setState({
-        temperature: Math.round(data.daily.temp.day * 1.8 - 459.67),
+        temperature: Math.round(data.daily[0].temp.day * 1.8 - 459.67),
         weatherCondition: data.daily.weather[0].main,
         isLoading: false
       });
+      // console.log(this.state.temperature)
+      // console.log(this.state.weatherCondition)
     });
 
   }
@@ -141,21 +143,18 @@ export default class App extends React.Component {
                 type="outline"
                 onPress={this.handleDisplay}
               />
-              <stateButtons
-              current={this.handleCurrent}
-              daily={this.handleDaily}
-              hourly={this.handleHourly}
+              <StateButtons
+              // current={this.handleCurrent}
+              // daily={this.handleDaily}
+              // hourly={this.handleHourly}
               />
             </>
           )}
         </View>
-        {this.state.current ?
           <Weather
             weather={weatherCondition}
             temperature={temperature}
           />
-          :
-          null
         }
       </>
     );

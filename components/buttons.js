@@ -3,9 +3,9 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Button } from 'react-native-elements';
 
 
-export const stateButtons = ({ current, hourly, daily, onPress }) => {
+export const StateButtons = ({ current, hourly, daily, onPress }) => {
     return (
-        < >
+        <>
         <Button
         title='Current'
         onPress={current}
