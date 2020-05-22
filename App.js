@@ -18,7 +18,7 @@ export default class App extends React.Component {
       display: false,
       isLoading: true,
       error: null,
-      weatherCondition: null,
+      weatherCondition: '',
       temperature: null,
       current: true,
       hourly: false,
@@ -103,8 +103,9 @@ export default class App extends React.Component {
     exclude=hourly,daily&appid=${KEY}`)
       .then(res => res.json())
       .then(data => {
+        console.log(data.hourly[0].temp)
         this.setState({
-          temperature: Math.round(data.hourly[0].temp * 1.8 - 459.67),
+          temperature: data.hourly[0].temp,
           weatherCondition: data.hourly.weather[0].main,
           isLoading: false
         });
@@ -116,15 +117,15 @@ export default class App extends React.Component {
     exclude=hourly,daily&appid=${KEY}`)
     .then(res => res.json())
     .then(data => {
+      console.log(data.daily[0].temp.day)
       this.setState({
-        temperature: Math.round(data.daily[0].temp.day * 1.8 - 459.67),
+        temperature: data.daily[0].temp.day,
         weatherCondition: data.daily.weather[0].main,
         isLoading: false
       });
-      // console.log(this.state.temperature)
-      // console.log(this.state.weatherCondition)
+      console.log(this.state.temperature)
+      console.log(this.state.weatherCondition)
     });
-
   }
 
 
@@ -143,19 +144,18 @@ export default class App extends React.Component {
                 type="outline"
                 onPress={this.handleDisplay}
               />
-              <StateButtons
-              // current={this.handleCurrent}
-              // daily={this.handleDaily}
-              // hourly={this.handleHourly}
+               <StateButtons
+              current={this.handleCurrent}
+              daily={this.handleDaily}
+              hourly={this.handleHourly}
               />
             </>
-          )}
+           )}
         </View>
-          <Weather
+        {this.state.current ? <Weather
             weather={weatherCondition}
             temperature={temperature}
-          />
-        }
+          /> : null}
       </>
     );
   }

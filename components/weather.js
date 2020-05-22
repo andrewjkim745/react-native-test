@@ -12,7 +12,6 @@ export default Weather = ({weather, temperature}) => {
             <Text style={styles.text}>{weather}</Text>
             <Text style={styles.temperature}>{temperature}° F</Text>
         </View> 
-
     )
 } 
 
