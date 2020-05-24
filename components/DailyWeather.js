@@ -4,10 +4,10 @@ import { View, Text, StyleSheet } from 'react-native'
 
 
 
-export const DailyWeather = ({ minTemp, maxTemp, dayTemp, feelsLike, weather }) => {
+export default DailyWeather = ({ minTemp, maxTemp, dayTemp, feelsLike, dailyWeather }) => {
     return (
         <View style={styles.dailyWeatherContainer}>       
-        
+            <Text>{dailyWeather}</Text>
             <Text>{dayTemp}</Text>
             <Text>{minTemp}</Text>
             <Text>{maxTemp}</Text>
@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
     dailyWeatherContainer : {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        backgroundColor: 'blue'
     }
 })
