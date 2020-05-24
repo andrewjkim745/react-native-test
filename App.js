@@ -22,7 +22,11 @@ export default class App extends React.Component {
       temperature: null,
       current: true,
       hourly: false,
-      daily: false
+      daily: false,
+      dayTemp: '',
+      minTemp: '',
+      maxTemp: '',
+      feelsLike: ''
     }
   }
 
@@ -152,10 +156,10 @@ export default class App extends React.Component {
             </>
            )}
         </View>
-        {this.state.current ? <Weather
+        <Weather
             weather={weatherCondition}
             temperature={temperature}
-          /> : null}
+          />
       </>
     );
   }
