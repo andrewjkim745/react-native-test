@@ -8,6 +8,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "bulma": "^0.8.2",
     "expo": "~37.0.3",
     "expo-constants": "~9.0.0",
     "react": "~16.9.0",

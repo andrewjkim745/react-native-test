@@ -3,7 +3,9 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Button } from 'react-native-elements';
 import FlexContainer from './components/flexContainer'
 import Weather from './components/weather'
-import stateButtons from './components/buttons'
+import { StateButtons } from './components/buttons'
+import { DailyWeather } from './components/DailyWeather'
+import { HourlyWeather } from './components/HourlyWeather'
 
 
 const RaisedButton = props => <Button raised {...props} />;
@@ -18,11 +20,19 @@ export default class App extends React.Component {
       display: false,
       isLoading: true,
       error: null,
-      weatherCondition: null,
+      weatherCondition: '',
       temperature: null,
       current: true,
       hourly: false,
-      daily: false
+      daily: false,
+      dailyWeather: '',
+      dayTemp: '',
+      minTemp: '',
+      maxTemp: '',
+      feelsLike: '',
+      hourlyTemperature: '',
+      windSpeed: '',
+      hourlyWeather: ''
     }
   }
 
@@ -33,6 +43,8 @@ export default class App extends React.Component {
       navigator.geolocation.getCurrentPosition(
         position => {
           this.fetchWeather(position.coords.latitude, position.coords.longitude);
+          this.fetchDailyWeather(position.coords.latitude, position.coords.longitude)
+          this.fetchHourlyWeather(position.coords.latitude, position.coords.longitude)
         },
         error => {
           this.setState({
@@ -53,22 +65,12 @@ export default class App extends React.Component {
     this.setState({
       daily: !this.state.daily
     })
-    navigator.geolocation.getCurrentPosition(
-      position => {
-        this.fetchDailyWeather(position.coords.latitude, position.coords.longitude);
-      },
-    )
   }
 
   handleHourly = e => {
     this.setState({
       hourly: !this.state.hourly
     })
-    navigator.geolocation.getCurrentPosition(
-      position => {
-        this.fetchHourlyWeather(position.coords.latitude, position.coords.longitude);
-      },
-    )
   }
 
 
@@ -103,10 +105,12 @@ export default class App extends React.Component {
     exclude=hourly,daily&appid=${KEY}`)
       .then(res => res.json())
       .then(data => {
+        console.log(data.hourly[0].temp)
         this.setState({
-          temperature: Math.round(data.hourly.temp * 1.8 - 459.67),
-          weatherCondition: data.hourly.weather[0].main,
-          isLoading: false
+          hourlyTemperature: data.hourly[0].temp,
+          hourlyweatherCondition: data.hourly.weather[0].main,
+          windSpeed: data.hourly.wind_speed,
+          isLoading: false,
         });
       });
   }
@@ -116,19 +120,24 @@ export default class App extends React.Component {
     exclude=hourly,daily&appid=${KEY}`)
     .then(res => res.json())
     .then(data => {
+      console.log(data.daily[0].temp.day)
       this.setState({
-        temperature: Math.round(data.daily.temp.day * 1.8 - 459.67),
-        weatherCondition: data.daily.weather[0].main,
-        isLoading: false
+        dailyWeather: data.daily.weather[0].main,
+        dayTemp: data.daily.temp.day,
+        minTemp: data.daily.temp.min,
+        maxTemp: data.daily.temp.max,
+        feelsLike: data.daily.feels_like.day,
+        isLoading: false  
       });
+      console.log(this.state.temperature)
+      console.log(this.state.weatherCondition)
     });
-
   }
 
 
   render() {
 
-    const { isLoading, weatherCondition, temperature } = this.state;
+    const { isLoading, weatherCondition, temperature, dayTemp, minTemp, maxTemp, feelsLike, hourlyTemperature, hourlyWeather, windSpeed } = this.state;
     return (
       <>
         <View style={styles.container}>
@@ -141,22 +150,28 @@ export default class App extends React.Component {
                 type="outline"
                 onPress={this.handleDisplay}
               />
-              <stateButtons
+               <StateButtons
               current={this.handleCurrent}
               daily={this.handleDaily}
               hourly={this.handleHourly}
               />
             </>
-          )}
+           )}
         </View>
-        {this.state.current ?
-          <Weather
+        {this.state.current ? <Weather
             weather={weatherCondition}
             temperature={temperature}
-          />
-          :
-          null
+          /> : null}
+        {this.state.hourly ? <HourlyWeather
+        hourlyWeather={hourlyWeather}
+        windSpeed={windSpeed}
+        hourlyTemperature={hourlyTemperature}/> : null
         }
+        {this.state.daily ? <DailyWeather 
+        dayTemp={dayTemp}
+        minTemp={minTemp}
+        maxTemp={maxTemp}
+        feelsLike={feelsLike}/> : null}
       </>
     );
   }
