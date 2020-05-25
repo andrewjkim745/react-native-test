@@ -101,7 +101,7 @@ export default class App extends React.Component {
           // dayTemp: data.daily.temp.day,
           // minTemp: data.daily.temp.min,
           // maxTemp: data.daily.temp.max,
-          feelsLike: data.daily[0].feels_like.day
+          feelsLike: Math.round(data.daily[0].feels_like.day * 1.8 - 459.67)
           // hourlyTemperature: data.hourly[0].temp,
           // hourlyweatherCondition: data.hourly.weather[0].main,
           // windSpeed: data.hourly.wind_speed,
