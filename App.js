@@ -182,9 +182,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    backgroundColor: 'lightblue'
   },
   button: {
+    textDecorationStyle: 'none',
     marginTop: 10
   }
 });
