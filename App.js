@@ -32,7 +32,8 @@ export default class App extends React.Component {
       feelsLike: '',
       hourlyTemperature: '',
       windSpeed: '',
-      hourlyWeather: ''
+      hourlyWeather: '',
+      timezone: ''
     }
   }
 
@@ -90,18 +91,20 @@ export default class App extends React.Component {
     exclude=hourly,daily&appid=${KEY}`)
       .then(res => res.json())
       .then(data => {
+        console.log(data.daily[0].feels_like.day)
         this.setState({
           temperature: Math.round(data.current.temp * 1.8 - 459.67),
           weatherCondition: data.current.weather[0].main,
           isLoading: false,
-          dailyWeather: data.daily.weather[0].main,
-          dayTemp: data.daily.temp.day,
-          minTemp: data.daily.temp.min,
-          maxTemp: data.daily.temp.max,
-          feelsLike: data.daily.feels_like.day,
-          hourlyTemperature: data.hourly[0].temp,
-          hourlyweatherCondition: data.hourly.weather[0].main,
-          windSpeed: data.hourly.wind_speed,
+          timezone: data.timezone,
+          // dailyWeather: data.daily[0]
+          // dayTemp: data.daily.temp.day,
+          // minTemp: data.daily.temp.min,
+          // maxTemp: data.daily.temp.max,
+          feelsLike: data.daily[0].feels_like.day
+          // hourlyTemperature: data.hourly[0].temp,
+          // hourlyweatherCondition: data.hourly.weather[0].main,
+          // windSpeed: data.hourly.wind_speed,
         });
       });
   }
@@ -135,7 +138,7 @@ export default class App extends React.Component {
 
   render() {
 
-    const { isLoading, weatherCondition, temperature, dayTemp, minTemp, maxTemp, feelsLike, hourlyTemperature, hourlyWeather, windSpeed } = this.state;
+    const { isLoading, timezone, weatherCondition, temperature, dayTemp, minTemp, maxTemp, feelsLike, hourlyTemperature, hourlyWeather, windSpeed } = this.state;
     return (
       <>
         <View style={styles.container}>
@@ -156,6 +159,7 @@ export default class App extends React.Component {
             </>
            )}
         </View>
+        <Text>{timezone}</Text>
         {this.state.current ? <Weather
             weather={weatherCondition}
             temperature={temperature}
