@@ -91,15 +91,15 @@ export default class App extends React.Component {
     exclude=hourly,daily&appid=${KEY}`)
       .then(res => res.json())
       .then(data => {
-        console.log(data.daily[0].feels_like.day)
+        console.log(data.daily[0].weather[0].main)
         this.setState({
           temperature: Math.round(data.current.temp * 1.8 - 459.67),
           weatherCondition: data.current.weather[0].main,
           isLoading: false,
           timezone: data.timezone,
-          // dailyWeather: data.daily[0]
+          dailyWeather: data.daily[0].weather[0].main,
           // dayTemp: data.daily.temp.day,
-          // minTemp: data.daily.temp.min,
+          minTemp: data.daily[0].temp.min,
           // maxTemp: data.daily.temp.max,
           feelsLike: Math.round(data.daily[0].feels_like.day * 1.8 - 459.67)
           // hourlyTemperature: data.hourly[0].temp,
@@ -138,7 +138,7 @@ export default class App extends React.Component {
 
   render() {
 
-    const { isLoading, timezone, weatherCondition, temperature, dayTemp, minTemp, maxTemp, feelsLike, hourlyTemperature, hourlyWeather, windSpeed } = this.state;
+    const { isLoading, timezone, weatherCondition, temperature, dailyWeather, dayTemp, minTemp, maxTemp, feelsLike, hourlyTemperature, hourlyWeather, windSpeed } = this.state;
     return (
       <>
         <View style={styles.container}>
@@ -173,6 +173,7 @@ export default class App extends React.Component {
         dayTemp={dayTemp}
         minTemp={minTemp}
         maxTemp={maxTemp}
+        dailyWeather={dailyWeather}
         feelsLike={feelsLike}/> : null}
       </>
     );

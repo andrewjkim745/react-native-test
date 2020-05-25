@@ -11,7 +11,7 @@ export default DailyWeather = ({ minTemp, maxTemp, dayTemp, feelsLike, dailyWeat
             <Text>{dayTemp}</Text>
             <Text>{minTemp}</Text>
             <Text>{maxTemp}</Text>
-            <Text>{feelsLike}</Text>
+            <Text> Feels Like {feelsLike} ° F</Text>
         </View>
     )
 }
