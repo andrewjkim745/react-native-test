@@ -3,9 +3,9 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Button } from 'react-native-elements';
 import FlexContainer from './components/flexContainer'
 import Weather from './components/weather'
-import { StateButtons } from './components/buttons'
-import { DailyWeather } from './components/DailyWeather'
-import { HourlyWeather } from './components/HourlyWeather'
+import  { StateButtons } from './components/buttons'
+import  DailyWeather  from './components/DailyWeather'
+import  HourlyWeather  from './components/HourlyWeather'
 
 
 const RaisedButton = props => <Button raised {...props} />;
@@ -42,9 +42,7 @@ export default class App extends React.Component {
     return (
       navigator.geolocation.getCurrentPosition(
         position => {
-          this.fetchWeather(position.coords.latitude, position.coords.longitude);
-          this.fetchDailyWeather(position.coords.latitude, position.coords.longitude)
-          this.fetchHourlyWeather(position.coords.latitude, position.coords.longitude)
+          this.fetchWeather(position.coords.latitude, position.coords.longitude)
         },
         error => {
           this.setState({
@@ -95,44 +93,44 @@ export default class App extends React.Component {
         this.setState({
           temperature: Math.round(data.current.temp * 1.8 - 459.67),
           weatherCondition: data.current.weather[0].main,
-          isLoading: false
-        });
-      });
-  }
-
-  fetchHourlyWeather = (lat, lon) => {
-    fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&
-    exclude=hourly,daily&appid=${KEY}`)
-      .then(res => res.json())
-      .then(data => {
-        console.log(data.hourly[0].temp)
-        this.setState({
+          isLoading: false,
+          dailyWeather: data.daily.weather[0].main,
+          dayTemp: data.daily.temp.day,
+          minTemp: data.daily.temp.min,
+          maxTemp: data.daily.temp.max,
+          feelsLike: data.daily.feels_like.day,
           hourlyTemperature: data.hourly[0].temp,
           hourlyweatherCondition: data.hourly.weather[0].main,
           windSpeed: data.hourly.wind_speed,
-          isLoading: false,
         });
       });
   }
 
-  fetchDailyWeather = (lat, lon) => {
-    fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&
-    exclude=hourly,daily&appid=${KEY}`)
-    .then(res => res.json())
-    .then(data => {
-      console.log(data.daily[0].temp.day)
-      this.setState({
-        dailyWeather: data.daily.weather[0].main,
-        dayTemp: data.daily.temp.day,
-        minTemp: data.daily.temp.min,
-        maxTemp: data.daily.temp.max,
-        feelsLike: data.daily.feels_like.day,
-        isLoading: false  
-      });
-      console.log(this.state.temperature)
-      console.log(this.state.weatherCondition)
-    });
-  }
+  // fetchHourlyWeather = (lat, lon) => {
+  //   fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&
+  //   exclude=hourly,daily&appid=${KEY}`)
+  //     .then(res => res.json())
+  //     .then(data => {
+  //       console.log(data.hourly[0].temp)
+  //       this.setState({
+
+  //       });
+  //     });
+  // }
+
+  // fetchDailyWeather = (lat, lon) => {
+  //   fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&
+  //   exclude=hourly,daily&appid=${KEY}`)
+  //   .then(res => res.json())
+  //   .then(data => {
+  //     console.log(data.daily[0].temp.day)
+  //     this.setState({
+
+  //     });
+  //     console.log(this.state.temperature)
+  //     console.log(this.state.weatherCondition)
+  //   });
+  // }
 
 
   render() {
@@ -186,7 +184,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'lightblue'
   },
   button: {
-    textDecorationStyle: 'none',
     marginTop: 10
   }
 });
