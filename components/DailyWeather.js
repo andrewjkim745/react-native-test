@@ -11,7 +11,7 @@ export default DailyWeather = ({ minTemp, maxTemp, dayTemp, feelsLike, dailyWeat
             <Text>{dayTemp}</Text>
             <Text>{minTemp}</Text>
             <Text>{maxTemp}</Text>
-            <Text> Feels Like {feelsLike} ° F</Text>
+            <Text style={styles.Text}> Feels Like {feelsLike} ° F</Text>
         </View>
     )
 }
@@ -23,5 +23,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'lightblue'
+    },
+    Text: {
+        fontSize: 30
     }
 })
