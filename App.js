@@ -177,8 +177,7 @@ export default class App extends React.Component {
               dailyWeather={day[0].weather.main}
               feelsLike={day[0].feels_like.day} /> 
           )
-          : null }
-        })
+        }) : null }
       </>
     );
   }
