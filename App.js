@@ -109,6 +109,43 @@ export default class App extends React.Component {
       });
   }
 
+
+  fetchDailyWeather = () => {
+    return (
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          this.fetchWeather(position.coords.latitude, position.coords.longitude)
+          this.renderDaily()
+        },
+        error => {
+          this.setState({
+            error: 'Error Retrieving Weather Conditions'
+          });
+        }
+      )
+    )
+    
+  }
+
+
+  renderDaily = () => {
+    return (
+      <>
+        {this.state.daily ? dayTemp.map(day => {
+          return (
+            <DailyWeather
+              // dayTemp={dayTemp}
+              minTemp={day[0].temp.min}
+              maxTemp={day[0].temp.max}
+              dailyWeather={day[0].weather.main}
+              feelsLike={day[0].feels_like.day} />
+          )
+        }) : null}
+      </>
+    )
+
+  }
+
   // fetchHourlyWeather = (lat, lon) => {
   //   fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&
   //   exclude=hourly,daily&appid=${KEY}`)
@@ -168,16 +205,16 @@ export default class App extends React.Component {
           windSpeed={windSpeed}
           hourlyTemperature={hourlyTemperature} /> : null
         }
-        {this.state.daily ? this.state.dayTemp.map(day => {
+        {this.state.daily ? dayTemp.map(day => {
           return (
             <DailyWeather
-              dayTemp={dayTemp}
-              minTemp={day[0].temp.min}
-              maxTemp={day[0].temp.max}
-              dailyWeather={day[0].weather.main}
-              feelsLike={day[0].feels_like.day} /> 
+              // dayTemp={dayTemp}
+              minTemp={day.temp.min}
+              maxTemp={day.temp.max}
+              dailyWeather={day.weather.main}
+              feelsLike={day.feels_like.day} />
           )
-        }) : null }
+        }) : null}
       </>
     );
   }
