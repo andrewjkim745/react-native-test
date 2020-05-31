@@ -22,9 +22,12 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'lightblue'
+        backgroundColor: 'lightblue',
+        flexWrap: 'wrap',
+        flexDirection: 'row',
+        overflow: 'scroll'
     },
     Text: {
-        fontSize: 10
+        fontSize: 20
     }
 })
