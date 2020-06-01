@@ -5,19 +5,34 @@ import { Button } from 'react-native-elements';
 
 export const StateButtons = ({ current, hourly, daily, onPress }) => {
     return (
-        <>
+        <View style={styles.buttonsContainer}>
         <Button
-        title='Current'
+        style={styles.buttons}
+        title='View Current Weather'
         onPress={current}
         />
         <Button
-        title='Hourly'
+        style={styles.buttons}
+        title='View Hourly Weather'
         onPress={hourly}
         />
         <Button
-        title='Daily'
+        style={styles.buttons}
+        title='View Daily Weather'
         onPress={daily}
         />
-        </>
+        </View>
     )
 }
+
+
+
+const styles = StyleSheet.create({
+    buttonsContainer: {
+        flex: 1
+    },
+
+    buttons: {
+        paddingTop: 20
+    }
+})

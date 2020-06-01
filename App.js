@@ -4,8 +4,8 @@ import { Button } from 'react-native-elements';
 import FlexContainer from './components/flexContainer'
 import Weather from './components/weather'
 import { StateButtons } from './components/buttons'
-import { DailyWeather } from './components/DailyWeather'
-import { HourlyWeather } from './components/HourlyWeather'
+import DailyWeather from './components/DailyWeather'
+import HourlyWeather from './components/HourlyWeather'
 
 
 const RaisedButton = props => <Button raised {...props} />;
@@ -32,7 +32,8 @@ export default class App extends React.Component {
       feelsLike: '',
       hourlyTemperature: '',
       windSpeed: '',
-      hourlyWeather: ''
+      hourlyWeather: '',
+      timezone: ''
     }
   }
 
@@ -42,9 +43,7 @@ export default class App extends React.Component {
     return (
       navigator.geolocation.getCurrentPosition(
         position => {
-          this.fetchWeather(position.coords.latitude, position.coords.longitude);
-          this.fetchDailyWeather(position.coords.latitude, position.coords.longitude)
-          this.fetchHourlyWeather(position.coords.latitude, position.coords.longitude)
+          this.fetchWeather(position.coords.latitude, position.coords.longitude)
         },
         error => {
           this.setState({
@@ -92,86 +91,67 @@ export default class App extends React.Component {
     exclude=hourly,daily&appid=${KEY}`)
       .then(res => res.json())
       .then(data => {
+        console.log(data.daily)
         this.setState({
           temperature: Math.round(data.current.temp * 1.8 - 459.67),
           weatherCondition: data.current.weather[0].main,
-          isLoading: false
-        });
-      });
-  }
-
-  fetchHourlyWeather = (lat, lon) => {
-    fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&
-    exclude=hourly,daily&appid=${KEY}`)
-      .then(res => res.json())
-      .then(data => {
-        console.log(data.hourly[0].temp)
-        this.setState({
-          hourlyTemperature: data.hourly[0].temp,
-          hourlyweatherCondition: data.hourly.weather[0].main,
-          windSpeed: data.hourly.wind_speed,
           isLoading: false,
+          timezone: data.timezone,
+          dailyWeather: data.daily[0].weather[0].main,
+          dayTemp: data.daily,
+          minTemp: Math.round(data.daily[0].temp.min * 1.8 - 459.67),
+          // maxTemp: data.daily.temp.max,
+          feelsLike: Math.round(data.daily[0].feels_like.day * 1.8 - 459.67),
+          hourlyTemperature: Math.round(data.hourly[0].temp * 1.8 - 459.67),
+          hourlyweatherCondition: data.hourly[0].weather[0].main
+          // windSpeed: data.hourly.wind_speed,
         });
       });
-  }
-
-  fetchDailyWeather = (lat, lon) => {
-    fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&
-    exclude=hourly,daily&appid=${KEY}`)
-    .then(res => res.json())
-    .then(data => {
-      console.log(data.daily[0].temp.day)
-      this.setState({
-        dailyWeather: data.daily.weather[0].main,
-        dayTemp: data.daily.temp.day,
-        minTemp: data.daily.temp.min,
-        maxTemp: data.daily.temp.max,
-        feelsLike: data.daily.feels_like.day,
-        isLoading: false  
-      });
-      console.log(this.state.temperature)
-      console.log(this.state.weatherCondition)
-    });
   }
 
 
   render() {
 
-    const { isLoading, weatherCondition, temperature, dayTemp, minTemp, maxTemp, feelsLike, hourlyTemperature, hourlyWeather, windSpeed } = this.state;
+    const { isLoading, timezone, weatherCondition, temperature, dailyWeather, dayTemp, minTemp, maxTemp, feelsLike, hourlyTemperature, hourlyWeather, windSpeed } = this.state;
     return (
       <>
         <View style={styles.container}>
           {isLoading ? (<Text>Fetching app info</Text>) : (
             <>
-              <Text>This is an advanced Weather App</Text>
               <RaisedButton
                 title="Display Current Weather"
                 buttonStyle={styles.button}
                 type="outline"
                 onPress={this.handleDisplay}
               />
-               <StateButtons
-              current={this.handleCurrent}
-              daily={this.handleDaily}
-              hourly={this.handleHourly}
+              <StateButtons
+                current={this.handleCurrent}
+                daily={this.handleDaily}
+                hourly={this.handleHourly}
               />
             </>
-           )}
+          )}
         </View>
+        <Text>{timezone}</Text>
         {this.state.current ? <Weather
-            weather={weatherCondition}
-            temperature={temperature}
-          /> : null}
+          weather={weatherCondition}
+          temperature={temperature}
+        /> : null}
         {this.state.hourly ? <HourlyWeather
-        hourlyWeather={hourlyWeather}
-        windSpeed={windSpeed}
-        hourlyTemperature={hourlyTemperature}/> : null
+          hourlyWeather={hourlyWeather}
+          windSpeed={windSpeed}
+          hourlyTemperature={hourlyTemperature} /> : null
         }
-        {this.state.daily ? <DailyWeather 
-        dayTemp={dayTemp}
-        minTemp={minTemp}
-        maxTemp={maxTemp}
-        feelsLike={feelsLike}/> : null}
+        {this.state.daily ? dayTemp.map(day => {
+          return (
+            <DailyWeather
+              // dayTemp={dayTemp}
+              minTemp={day.temp.min}
+              maxTemp={day.temp.max}
+              dailyWeather={day.weather.main}
+              feelsLike={day.feels_like.day} />
+          )
+        }) : null}
       </>
     );
   }
@@ -182,7 +162,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    backgroundColor: 'lightblue'
   },
   button: {
     marginTop: 10

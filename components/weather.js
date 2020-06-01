@@ -8,10 +8,10 @@ import { StyleSheet, View, Text } from 'react-native'
 export default Weather = ({weather, temperature}) => {
     return (
         <View style={styles.weatherContainer}>
-            <Entypo name="icloud" size={100} color="blue"/>
+            <Entypo name="icloud" size={50} color="blue"/>
             <Text style={styles.text}>{weather}</Text>
             <Text style={styles.temperature}>{temperature}° F</Text>
-        </View> 
+        </View>  
     )
 } 
 
@@ -29,10 +29,10 @@ const styles = StyleSheet.create({
         backgroundColor: 'lightblue'
     },
     text: {
-        fontSize: 50
+        fontSize: 20
     },
     temperature: {
-        fontSize: 30
+        fontSize: 20
     }
 
 })
