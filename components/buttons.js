@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
     },
 
     buttons: {
-        paddingTop: 20
+        paddingTop: 20,
+        fontSize: 30
     }
 })

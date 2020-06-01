@@ -37,8 +37,6 @@ export default class App extends React.Component {
     }
   }
 
-
-
   componentDidMount = () => {
     return (
       navigator.geolocation.getCurrentPosition(
@@ -116,14 +114,8 @@ export default class App extends React.Component {
     return (
       <>
         <View style={styles.container}>
-          {isLoading ? (<Text>Fetching app info</Text>) : (
+          {isLoading ? (<Text>Fetching current weather info</Text>) : (
             <>
-              <RaisedButton
-                title="Display Current Weather"
-                buttonStyle={styles.button}
-                type="outline"
-                onPress={this.handleDisplay}
-              />
               <StateButtons
                 current={this.handleCurrent}
                 daily={this.handleDaily}
