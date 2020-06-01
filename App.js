@@ -110,69 +110,6 @@ export default class App extends React.Component {
   }
 
 
-  fetchDailyWeather = () => {
-    return (
-      navigator.geolocation.getCurrentPosition(
-        position => {
-          this.fetchWeather(position.coords.latitude, position.coords.longitude)
-          this.renderDaily()
-        },
-        error => {
-          this.setState({
-            error: 'Error Retrieving Weather Conditions'
-          });
-        }
-      )
-    )
-    
-  }
-
-
-  renderDaily = () => {
-    return (
-      <>
-        {this.state.daily ? dayTemp.map(day => {
-          return (
-            <DailyWeather
-              // dayTemp={dayTemp}
-              minTemp={day[0].temp.min}
-              maxTemp={day[0].temp.max}
-              dailyWeather={day[0].weather.main}
-              feelsLike={day[0].feels_like.day} />
-          )
-        }) : null}
-      </>
-    )
-
-  }
-
-  // fetchHourlyWeather = (lat, lon) => {
-  //   fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&
-  //   exclude=hourly,daily&appid=${KEY}`)
-  //     .then(res => res.json())
-  //     .then(data => {
-  //       console.log(data.hourly[0].temp)
-  //       this.setState({
-
-  //       });
-  //     });
-  // }
-
-  // fetchDailyWeather = (lat, lon) => {
-  //   fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&
-  //   exclude=hourly,daily&appid=${KEY}`)
-  //   .then(res => res.json())
-  //   .then(data => {
-  //     console.log(data.daily[0].temp.day)
-  //     this.setState({
-
-  //     });
-  //     console.log(this.state.temperature)
-  //     console.log(this.state.weatherCondition)
-  //   });
-  // }
-
-
   render() {
 
     const { isLoading, timezone, weatherCondition, temperature, dailyWeather, dayTemp, minTemp, maxTemp, feelsLike, hourlyTemperature, hourlyWeather, windSpeed } = this.state;
