@@ -8,9 +8,9 @@ export default DailyWeather = ({ minTemp, maxTemp, dayTemp, feelsLike, dailyWeat
     return (
         <View style={styles.dailyWeatherContainer}>       
             <Text style={styles.Text}>{dailyWeather}</Text>
-            <Text style={styles.Text}>{dayTemp}</Text>
-            <Text style={styles.Text}>{minTemp}</Text>
-            <Text style={styles.Text}>{maxTemp}</Text>
+            <Text style={styles.Text}>During the Day average: {dayTemp}</Text>
+            <Text style={styles.Text}>Lowest Temperature{minTemp}</Text>
+            <Text style={styles.Text}>Highest Temperature{maxTemp}</Text>
             <Text style={styles.Text}> Feels Like {feelsLike} ° F</Text>
         </View>
     )
