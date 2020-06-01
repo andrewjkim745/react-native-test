@@ -8,17 +8,17 @@ export const StateButtons = ({ current, hourly, daily, onPress }) => {
         <View style={styles.buttonsContainer}>
         <Button
         style={styles.buttons}
-        title='Current'
+        title='View Current Weather'
         onPress={current}
         />
         <Button
         style={styles.buttons}
-        title='Hourly'
+        title='View Hourly Weather'
         onPress={hourly}
         />
         <Button
         style={styles.buttons}
-        title='Daily'
+        title='View Daily Weather'
         onPress={daily}
         />
         </View>
