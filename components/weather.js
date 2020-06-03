@@ -1,17 +1,17 @@
 import React from 'react'
 import { Entypo } from '@expo/vector-icons'; 
-import { StyleSheet, View, Text } from 'react-native'
+import { StyleSheet, ScrollView, Text } from 'react-native'
 
 
 
 
 export default Weather = ({weather, temperature}) => {
     return (
-        <View style={styles.weatherContainer}>
+        <ScrollView contentContainerStyle={styles.weatherContainer}>
             <Entypo name="icloud" size={50} color="blue"/>
             <Text style={styles.text}>{weather}</Text>
             <Text style={styles.temperature}>{temperature}° F</Text>
-        </View>  
+        </ScrollView> 
     )
 } 
 
@@ -23,7 +23,7 @@ export default Weather = ({weather, temperature}) => {
 
 const styles = StyleSheet.create({
     weatherContainer: {
-        flex: 1,
+        flex: 4 ,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'lightblue'
