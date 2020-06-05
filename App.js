@@ -115,16 +115,16 @@ export default class App extends React.Component {
       <>
         <View style={styles.container}>
           {isLoading ? (<Text>Fetching current weather info</Text>) : (
-            <>
+            <View style={styles.buttonsContainer}>
               <StateButtons
                 current={this.handleCurrent}
                 daily={this.handleDaily}
                 hourly={this.handleHourly}
               />
-            </>
+            </View>
           )}
         </View>
-        <Text>{timezone}</Text>
+        {/* <Text>{timezone}</Text> */}
         {this.state.current ? <Weather
           weather={weatherCondition}
           temperature={temperature}
@@ -137,7 +137,7 @@ export default class App extends React.Component {
         {this.state.daily ? dayTemp.map(day => {
           return (
             <DailyWeather
-              // dayTemp={dayTemp}
+              weather={day.weather}
               minTemp={day.temp.min}
               maxTemp={day.temp.max}
               dailyWeather={day.weather.main}
@@ -151,11 +151,17 @@ export default class App extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
     backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'lightblue'
+  },
+  buttonsContainer: {
+    // flex: 1,
+    justifyContent: 'center',
+    backgroundColor:'lightblue',
+    alignItems: 'center'
   },
   button: {
     marginTop: 10
